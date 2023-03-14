@@ -8,10 +8,10 @@ services:
       MYSQL_DATABASE: db_mini_schedule
     ports:
       - "3306:3306"
+    networks:
+    - spring-mysql-react-net
   backend:
-    build:
-      context: minischedule/.
-      dockerfile: Dockerfile
+    image: pedrohenriquedp/todolist-backend:1.0
     ports:
       - "8080:8080"
     environment:
@@ -20,11 +20,74 @@ services:
       - SPRING_DATASOURCE_PASSWORD=example
     depends_on:
       - mysql
-    command: java -jar /app/my-application.jar
+    networks:
+    - spring-mysql-react-net
   frontend:
-    build:
-      context: todo-list/.
-      dockerfile: Dockerfile
+    image: pedrohenriquedp/todolist-frontend:1.0
     ports:
       - "3000:3000"
-    command: npm start
+    networks:
+    - spring-mysql-react-net
+
+networks:
+  spring-mysql-react-net:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# version: "3.8"
+# services:
+#   mysql:
+#     image: mysql:8.0.32
+#     container_name: mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: db_mini_schedule
+#     ports:
+#       - "3306:3306"
+#     networks:
+#     - spring-mysql-react-net
+#   backend:
+#     build:
+#       context: minischedule/.
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/db_mini_schedule
+#       - SPRING_DATASOURCE_USERNAME=root
+#       - SPRING_DATASOURCE_PASSWORD=example
+#     depends_on:
+#       - mysql
+#     command: java -jar /app/my-application.jar
+#     networks:
+#     - spring-mysql-react-net
+#   frontend:
+#     build:
+#       context: todo-list/.
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     command: npm start
+#     networks:
+#     - spring-mysql-react-net
+
+# networks:
+#   spring-mysql-react-net:
+#     driver: bridge
